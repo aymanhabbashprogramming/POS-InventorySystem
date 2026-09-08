@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StoreManagerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoriesTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CustomersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ProductsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="CategoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="PurchaseBillDetailsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseBill_ID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="CostPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseBillTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="SupplierId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalAfterDiscount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesBillDetailsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="SalesBill_ID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesBillTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalAfterDiscount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SuppliersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UsersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ProductsTabel_CategoriesTabel">
+          <End Role="CategoriesTabel" Type="Self.CategoriesTabel" Multiplicity="0..1" />
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriesTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductsTabel">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillDetailsTabel_ProductsTabel">
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="1" />
+          <End Role="PurchaseBillDetailsTabel" Type="Self.PurchaseBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillDetailsTabel">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillDetailsTabel_PurchaseBillTabel">
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseBillDetailsTabel" Type="Self.PurchaseBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseBillTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillDetailsTabel">
+              <PropertyRef Name="PurchaseBill_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillTabel_SuppliersTabel">
+          <End Role="SuppliersTabel" Type="Self.SuppliersTabel" Multiplicity="1" />
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuppliersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillTabel">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillTabel_UsersTabel">
+          <End Role="UsersTabel" Type="Self.UsersTabel" Multiplicity="1" />
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillTabel">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillDetailsTabel_ProductsTabel">
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="1" />
+          <End Role="SalesBillDetailsTabel" Type="Self.SalesBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillDetailsTabel">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillDetailsTabel_SalesBillTabel">
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SalesBillDetailsTabel" Type="Self.SalesBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesBillTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillDetailsTabel">
+              <PropertyRef Name="SalesBill_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillTabel_CustomersTabel">
+          <End Role="CustomersTabel" Type="Self.CustomersTabel" Multiplicity="0..1" />
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillTabel">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillTabel_UsersTabel">
+          <End Role="UsersTabel" Type="Self.UsersTabel" Multiplicity="1" />
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillTabel">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoreManagerDBModelStoreContainer">
+          <EntitySet Name="CategoriesTabel" EntityType="Self.CategoriesTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomersTabel" EntityType="Self.CustomersTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductsTabel" EntityType="Self.ProductsTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseBillDetailsTabel" EntityType="Self.PurchaseBillDetailsTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseBillTabel" EntityType="Self.PurchaseBillTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesBillDetailsTabel" EntityType="Self.SalesBillDetailsTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesBillTabel" EntityType="Self.SalesBillTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SuppliersTabel" EntityType="Self.SuppliersTabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersTabel" EntityType="Self.UsersTabel" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ProductsTabel_CategoriesTabel" Association="Self.FK_ProductsTabel_CategoriesTabel">
+            <End Role="CategoriesTabel" EntitySet="CategoriesTabel" />
+            <End Role="ProductsTabel" EntitySet="ProductsTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillDetailsTabel_ProductsTabel" Association="Self.FK_PurchaseBillDetailsTabel_ProductsTabel">
+            <End Role="ProductsTabel" EntitySet="ProductsTabel" />
+            <End Role="PurchaseBillDetailsTabel" EntitySet="PurchaseBillDetailsTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillDetailsTabel_PurchaseBillTabel" Association="Self.FK_PurchaseBillDetailsTabel_PurchaseBillTabel">
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabel" />
+            <End Role="PurchaseBillDetailsTabel" EntitySet="PurchaseBillDetailsTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillTabel_SuppliersTabel" Association="Self.FK_PurchaseBillTabel_SuppliersTabel">
+            <End Role="SuppliersTabel" EntitySet="SuppliersTabel" />
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillTabel_UsersTabel" Association="Self.FK_PurchaseBillTabel_UsersTabel">
+            <End Role="UsersTabel" EntitySet="UsersTabel" />
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillDetailsTabel_ProductsTabel" Association="Self.FK_SalesBillDetailsTabel_ProductsTabel">
+            <End Role="ProductsTabel" EntitySet="ProductsTabel" />
+            <End Role="SalesBillDetailsTabel" EntitySet="SalesBillDetailsTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillDetailsTabel_SalesBillTabel" Association="Self.FK_SalesBillDetailsTabel_SalesBillTabel">
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabel" />
+            <End Role="SalesBillDetailsTabel" EntitySet="SalesBillDetailsTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillTabel_CustomersTabel" Association="Self.FK_SalesBillTabel_CustomersTabel">
+            <End Role="CustomersTabel" EntitySet="CustomersTabel" />
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillTabel_UsersTabel" Association="Self.FK_SalesBillTabel_UsersTabel">
+            <End Role="UsersTabel" EntitySet="UsersTabel" />
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabel" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StoreManagerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategoriesTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductsTabels" Relationship="Self.FK_ProductsTabel_CategoriesTabel" FromRole="CategoriesTabel" ToRole="ProductsTabel" />
+        </EntityType>
+        <EntityType Name="CustomersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SalesBillTabels" Relationship="Self.FK_SalesBillTabel_CustomersTabel" FromRole="CustomersTabel" ToRole="SalesBillTabel" />
+        </EntityType>
+        <EntityType Name="ProductsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" />
+          <NavigationProperty Name="CategoriesTabel" Relationship="Self.FK_ProductsTabel_CategoriesTabel" FromRole="ProductsTabel" ToRole="CategoriesTabel" />
+          <NavigationProperty Name="PurchaseBillDetailsTabels" Relationship="Self.FK_PurchaseBillDetailsTabel_ProductsTabel" FromRole="ProductsTabel" ToRole="PurchaseBillDetailsTabel" />
+          <NavigationProperty Name="SalesBillDetailsTabels" Relationship="Self.FK_SalesBillDetailsTabel_ProductsTabel" FromRole="ProductsTabel" ToRole="SalesBillDetailsTabel" />
+        </EntityType>
+        <EntityType Name="PurchaseBillDetailsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseBill_ID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="CostPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ProductsTabel" Relationship="Self.FK_PurchaseBillDetailsTabel_ProductsTabel" FromRole="PurchaseBillDetailsTabel" ToRole="ProductsTabel" />
+          <NavigationProperty Name="PurchaseBillTabel" Relationship="Self.FK_PurchaseBillDetailsTabel_PurchaseBillTabel" FromRole="PurchaseBillDetailsTabel" ToRole="PurchaseBillTabel" />
+        </EntityType>
+        <EntityType Name="PurchaseBillTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalAfterDiscount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="PurchaseBillDetailsTabels" Relationship="Self.FK_PurchaseBillDetailsTabel_PurchaseBillTabel" FromRole="PurchaseBillTabel" ToRole="PurchaseBillDetailsTabel" />
+          <NavigationProperty Name="SuppliersTabel" Relationship="Self.FK_PurchaseBillTabel_SuppliersTabel" FromRole="PurchaseBillTabel" ToRole="SuppliersTabel" />
+          <NavigationProperty Name="UsersTabel" Relationship="Self.FK_PurchaseBillTabel_UsersTabel" FromRole="PurchaseBillTabel" ToRole="UsersTabel" />
+        </EntityType>
+        <EntityType Name="SalesBillDetailsTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="SalesBill_ID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ProductsTabel" Relationship="Self.FK_SalesBillDetailsTabel_ProductsTabel" FromRole="SalesBillDetailsTabel" ToRole="ProductsTabel" />
+          <NavigationProperty Name="SalesBillTabel" Relationship="Self.FK_SalesBillDetailsTabel_SalesBillTabel" FromRole="SalesBillDetailsTabel" ToRole="SalesBillTabel" />
+        </EntityType>
+        <EntityType Name="SalesBillTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalAfterDiscount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="CustomersTabel" Relationship="Self.FK_SalesBillTabel_CustomersTabel" FromRole="SalesBillTabel" ToRole="CustomersTabel" />
+          <NavigationProperty Name="SalesBillDetailsTabels" Relationship="Self.FK_SalesBillDetailsTabel_SalesBillTabel" FromRole="SalesBillTabel" ToRole="SalesBillDetailsTabel" />
+          <NavigationProperty Name="UsersTabel" Relationship="Self.FK_SalesBillTabel_UsersTabel" FromRole="SalesBillTabel" ToRole="UsersTabel" />
+        </EntityType>
+        <EntityType Name="SuppliersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PurchaseBillTabels" Relationship="Self.FK_PurchaseBillTabel_SuppliersTabel" FromRole="SuppliersTabel" ToRole="PurchaseBillTabel" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UsersTabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PurchaseBillTabels" Relationship="Self.FK_PurchaseBillTabel_UsersTabel" FromRole="UsersTabel" ToRole="PurchaseBillTabel" />
+          <NavigationProperty Name="SalesBillTabels" Relationship="Self.FK_SalesBillTabel_UsersTabel" FromRole="UsersTabel" ToRole="SalesBillTabel" />
+        </EntityType>
+        <Association Name="FK_ProductsTabel_CategoriesTabel">
+          <End Role="CategoriesTabel" Type="Self.CategoriesTabel" Multiplicity="0..1" />
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriesTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductsTabel">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillTabel_CustomersTabel">
+          <End Role="CustomersTabel" Type="Self.CustomersTabel" Multiplicity="0..1" />
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillTabel">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillDetailsTabel_ProductsTabel">
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="1" />
+          <End Role="PurchaseBillDetailsTabel" Type="Self.PurchaseBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillDetailsTabel">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillDetailsTabel_ProductsTabel">
+          <End Role="ProductsTabel" Type="Self.ProductsTabel" Multiplicity="1" />
+          <End Role="SalesBillDetailsTabel" Type="Self.SalesBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillDetailsTabel">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillDetailsTabel_PurchaseBillTabel">
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseBillDetailsTabel" Type="Self.PurchaseBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseBillTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillDetailsTabel">
+              <PropertyRef Name="PurchaseBill_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillTabel_SuppliersTabel">
+          <End Role="SuppliersTabel" Type="Self.SuppliersTabel" Multiplicity="1" />
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuppliersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillTabel">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseBillTabel_UsersTabel">
+          <End Role="UsersTabel" Type="Self.UsersTabel" Multiplicity="1" />
+          <End Role="PurchaseBillTabel" Type="Self.PurchaseBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseBillTabel">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillDetailsTabel_SalesBillTabel">
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SalesBillDetailsTabel" Type="Self.SalesBillDetailsTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesBillTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillDetailsTabel">
+              <PropertyRef Name="SalesBill_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesBillTabel_UsersTabel">
+          <End Role="UsersTabel" Type="Self.UsersTabel" Multiplicity="1" />
+          <End Role="SalesBillTabel" Type="Self.SalesBillTabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersTabel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesBillTabel">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoreManagerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategoriesTabels" EntityType="Self.CategoriesTabel" />
+          <EntitySet Name="CustomersTabels" EntityType="Self.CustomersTabel" />
+          <EntitySet Name="ProductsTabels" EntityType="Self.ProductsTabel" />
+          <EntitySet Name="PurchaseBillDetailsTabels" EntityType="Self.PurchaseBillDetailsTabel" />
+          <EntitySet Name="PurchaseBillTabels" EntityType="Self.PurchaseBillTabel" />
+          <EntitySet Name="SalesBillDetailsTabels" EntityType="Self.SalesBillDetailsTabel" />
+          <EntitySet Name="SalesBillTabels" EntityType="Self.SalesBillTabel" />
+          <EntitySet Name="SuppliersTabels" EntityType="Self.SuppliersTabel" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="UsersTabels" EntityType="Self.UsersTabel" />
+          <AssociationSet Name="FK_ProductsTabel_CategoriesTabel" Association="Self.FK_ProductsTabel_CategoriesTabel">
+            <End Role="CategoriesTabel" EntitySet="CategoriesTabels" />
+            <End Role="ProductsTabel" EntitySet="ProductsTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillTabel_CustomersTabel" Association="Self.FK_SalesBillTabel_CustomersTabel">
+            <End Role="CustomersTabel" EntitySet="CustomersTabels" />
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillDetailsTabel_ProductsTabel" Association="Self.FK_PurchaseBillDetailsTabel_ProductsTabel">
+            <End Role="ProductsTabel" EntitySet="ProductsTabels" />
+            <End Role="PurchaseBillDetailsTabel" EntitySet="PurchaseBillDetailsTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillDetailsTabel_ProductsTabel" Association="Self.FK_SalesBillDetailsTabel_ProductsTabel">
+            <End Role="ProductsTabel" EntitySet="ProductsTabels" />
+            <End Role="SalesBillDetailsTabel" EntitySet="SalesBillDetailsTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillDetailsTabel_PurchaseBillTabel" Association="Self.FK_PurchaseBillDetailsTabel_PurchaseBillTabel">
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabels" />
+            <End Role="PurchaseBillDetailsTabel" EntitySet="PurchaseBillDetailsTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillTabel_SuppliersTabel" Association="Self.FK_PurchaseBillTabel_SuppliersTabel">
+            <End Role="SuppliersTabel" EntitySet="SuppliersTabels" />
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseBillTabel_UsersTabel" Association="Self.FK_PurchaseBillTabel_UsersTabel">
+            <End Role="UsersTabel" EntitySet="UsersTabels" />
+            <End Role="PurchaseBillTabel" EntitySet="PurchaseBillTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillDetailsTabel_SalesBillTabel" Association="Self.FK_SalesBillDetailsTabel_SalesBillTabel">
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabels" />
+            <End Role="SalesBillDetailsTabel" EntitySet="SalesBillDetailsTabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesBillTabel_UsersTabel" Association="Self.FK_SalesBillTabel_UsersTabel">
+            <End Role="UsersTabel" EntitySet="UsersTabels" />
+            <End Role="SalesBillTabel" EntitySet="SalesBillTabels" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StoreManagerDBModelStoreContainer" CdmEntityContainer="StoreManagerDBEntities">
+          <EntitySetMapping Name="CategoriesTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.CategoriesTabel">
+              <MappingFragment StoreEntitySet="CategoriesTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomersTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.CustomersTabel">
+              <MappingFragment StoreEntitySet="CustomersTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.ProductsTabel">
+              <MappingFragment StoreEntitySet="ProductsTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseBillDetailsTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.PurchaseBillDetailsTabel">
+              <MappingFragment StoreEntitySet="PurchaseBillDetailsTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PurchaseBill_ID" ColumnName="PurchaseBill_ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseBillTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.PurchaseBillTabel">
+              <MappingFragment StoreEntitySet="PurchaseBillTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TotalAfterDiscount" ColumnName="TotalAfterDiscount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesBillDetailsTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.SalesBillDetailsTabel">
+              <MappingFragment StoreEntitySet="SalesBillDetailsTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SalesBill_ID" ColumnName="SalesBill_ID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesBillTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.SalesBillTabel">
+              <MappingFragment StoreEntitySet="SalesBillTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TotalAfterDiscount" ColumnName="TotalAfterDiscount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SuppliersTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.SuppliersTabel">
+              <MappingFragment StoreEntitySet="SuppliersTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersTabels">
+            <EntityTypeMapping TypeName="StoreManagerDBModel.UsersTabel">
+              <MappingFragment StoreEntitySet="UsersTabel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

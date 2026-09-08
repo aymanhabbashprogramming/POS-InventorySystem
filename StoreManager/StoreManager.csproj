@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{799713E7-108A-4282-900F-0859BC7C29B4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>StoreManager</RootNamespace>
+    <AssemblyName>StoreManager</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Toolkit.100.26.1.19\lib\net472\Krypton.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\clsCustomers.cs" />
+    <Compile Include="Classes\clsSuppliers.cs" />
+    <Compile Include="Classes\clsUser.cs" />
+    <Compile Include="Database\CategoriesTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CustomersTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\LoginScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Database\LoginScreen.Designer.cs">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ProductsTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\PurchaseBillDetailsTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\PurchaseBillTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SalesBillDetailsTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SalesBillTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SuppliersTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\UsersTabel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\CustomerScreens\AddNewCustomerScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\AddNewCustomerScreen.Designer.cs">
+      <DependentUpon>AddNewCustomerScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\DeleteCustomerScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\DeleteCustomerScreen.Designer.cs">
+      <DependentUpon>DeleteCustomerScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\ListCustomersScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\ListCustomersScreen.Designer.cs">
+      <DependentUpon>ListCustomersScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\ManageCustomersScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\ManageCustomersScreen.Designer.cs">
+      <DependentUpon>ManageCustomersScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\UpdateCustomerScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CustomerScreens\UpdateCustomerScreen.Designer.cs">
+      <DependentUpon>UpdateCustomerScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MainScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\MainScreen.Designer.cs">
+      <DependentUpon>MainScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ExportedProducts\ExportProductsScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ExportedProducts\ExportProductsScreen.Designer.cs">
+      <DependentUpon>ExportProductsScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ExportedProducts\SalesInvoicesScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ExportedProducts\SalesInvoicesScreen.Designer.cs">
+      <DependentUpon>SalesInvoicesScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ImprtedProducts\ImportProductScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ImprtedProducts\ImportProductScreen.Designer.cs">
+      <DependentUpon>ImportProductScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ImprtedProducts\PurchaseInvoicesScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ImprtedProducts\PurchaseInvoicesScreen.Designer.cs">
+      <DependentUpon>PurchaseInvoicesScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ListAndDeleteProductScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ListAndDeleteProductScreen.Designer.cs">
+      <DependentUpon>ListAndDeleteProductScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Products\ManageProductsScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\Products\ManageProductsScreen.Designer.cs">
+      <DependentUpon>ManageProductsScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\AddNewSupplierScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\AddNewSupplierScreen.Designer.cs">
+      <DependentUpon>AddNewSupplierScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\DeleteSupplierScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\DeleteSupplierScreen.Designer.cs">
+      <DependentUpon>DeleteSupplierScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\ListSuppliersScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\ListSuppliersScreen.Designer.cs">
+      <DependentUpon>ListSuppliersScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\ManageSuppliersScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\ManageSuppliersScreen.Designer.cs">
+      <DependentUpon>ManageSuppliersScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\UpdateSupplierScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\SuppliersScreens\UpdateSupplierScreen.Designer.cs">
+      <DependentUpon>UpdateSupplierScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserScreens\AddNewUserScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\UserScreens\AddNewUserScreen.Designer.cs">
+      <DependentUpon>AddNewUserScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserScreens\DeleteUserScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\UserScreens\DeleteUserScreen.Designer.cs">
+      <DependentUpon>DeleteUserScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserScreens\ListUserScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\UserScreens\ListUserScreen.Designer.cs">
+      <DependentUpon>ListUserScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserScreens\ManageUsersScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\UserScreens\ManageUsersScreen.Designer.cs">
+      <DependentUpon>ManageUsersScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserScreens\UpdateUserScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\UserScreens\UpdateUserScreen.Designer.cs">
+      <DependentUpon>UpdateUserScreen.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Database\LoginScreen.resx">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Screens\CustomerScreens\AddNewCustomerScreen.resx">
+      <DependentUpon>AddNewCustomerScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\CustomerScreens\DeleteCustomerScreen.resx">
+      <DependentUpon>DeleteCustomerScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\CustomerScreens\ListCustomersScreen.resx">
+      <DependentUpon>ListCustomersScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\CustomerScreens\ManageCustomersScreen.resx">
+      <DependentUpon>ManageCustomersScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\CustomerScreens\UpdateCustomerScreen.resx">
+      <DependentUpon>UpdateCustomerScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ExportedProducts\ExportProductsScreen.resx">
+      <DependentUpon>ExportProductsScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ExportedProducts\SalesInvoicesScreen.resx">
+      <DependentUpon>SalesInvoicesScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ImprtedProducts\ImportProductScreen.resx">
+      <DependentUpon>ImportProductScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ImprtedProducts\PurchaseInvoicesScreen.resx">
+      <DependentUpon>PurchaseInvoicesScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ListAndDeleteProductScreen.resx">
+      <DependentUpon>ListAndDeleteProductScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\Products\ManageProductsScreen.resx">
+      <DependentUpon>ManageProductsScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\SuppliersScreens\AddNewSupplierScreen.resx">
+      <DependentUpon>AddNewSupplierScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\SuppliersScreens\DeleteSupplierScreen.resx">
+      <DependentUpon>DeleteSupplierScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\SuppliersScreens\ListSuppliersScreen.resx">
+      <DependentUpon>ListSuppliersScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\SuppliersScreens\ManageSuppliersScreen.resx">
+      <DependentUpon>ManageSuppliersScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\SuppliersScreens\UpdateSupplierScreen.resx">
+      <DependentUpon>UpdateSupplierScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\UserScreens\AddNewUserScreen.resx">
+      <DependentUpon>AddNewUserScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\UserScreens\DeleteUserScreen.resx">
+      <DependentUpon>DeleteUserScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\UserScreens\ListUserScreen.resx">
+      <DependentUpon>ListUserScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\UserScreens\ManageUsersScreen.resx">
+      <DependentUpon>ManageUsersScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\UserScreens\UpdateUserScreen.resx">
+      <DependentUpon>UpdateUserScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EntityDeploy Include="Database\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Database\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+</Project>
