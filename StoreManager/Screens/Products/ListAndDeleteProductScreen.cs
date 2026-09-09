@@ -1,26 +1,23 @@
-﻿using StoreManager.Database;
+﻿using StoreManager.Classes.BusinessLogic;
+using StoreManager.Database;
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace StoreManager.Screens.Products
 {
     public partial class ListAndDeleteProductScreen : Form
     {
-        StoreManagerDBEntities StoreManagerDB = new StoreManagerDBEntities();
-
+        ListAndDeleteProductService _Service = new ListAndDeleteProductService();
         public ListAndDeleteProductScreen()
         {
             InitializeComponent();
         }
-
         private void ListAndDeleteProductScreen_Load(object sender, EventArgs e)
         {
-            
             CategoriesList.DisplayMember = "CategoryName";
             CategoriesList.ValueMember = "Id";
-            CategoriesList.DataSource = StoreManagerDB.CategoriesTabels.ToList();
+            CategoriesList.DataSource = _Service.GetAllCategories();
 
             LoadData();
         }
@@ -29,7 +26,7 @@ namespace StoreManager.Screens.Products
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.Rows.Clear();
 
-            var products = StoreManagerDB.ProductsTabels.ToList();
+            var products = _Service.GetAllProducts();
 
             foreach (var x in products)
             {
@@ -73,9 +70,7 @@ namespace StoreManager.Screens.Products
 
             dataGridView1.Rows.Clear();
 
-            var products = StoreManagerDB.ProductsTabels
-                            .Where(x => x.CategoryId == categoryId)
-                            .ToList();
+            var products = _Service.GetProductsByCategory(categoryId);
 
             foreach (var x in products)
             {
@@ -111,7 +106,6 @@ namespace StoreManager.Screens.Products
                 );
             }
         }
-
         private void btnSearchProduct_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txProduct_IDToSearch.Text.Trim()))
@@ -123,9 +117,7 @@ namespace StoreManager.Screens.Products
 
             string search = txProduct_IDToSearch.Text.Trim();
 
-            var product = StoreManagerDB.ProductsTabels
-                            .FirstOrDefault(x => x.Id.ToString() == search ||
-                                                 x.Code == search);
+            var product = _Service.SearchProduct(search);
 
             if (product == null)
             {
@@ -167,7 +159,6 @@ namespace StoreManager.Screens.Products
                 productImage
             );
         }
-
         private void btnDeleteProduct_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtProduct_IDToDelete.Text.Trim()))
@@ -184,7 +175,7 @@ namespace StoreManager.Screens.Products
                 return;
             }
 
-            var product = StoreManagerDB.ProductsTabels.FirstOrDefault(x => x.Id == productId);
+            var product = _Service.GetProductById(productId);
 
             if (product == null)
             {
@@ -201,16 +192,9 @@ namespace StoreManager.Screens.Products
             );
 
             if (confirm == DialogResult.No) return;
-            //-----------------------------------------
-            var details = StoreManagerDB.PurchaseBillDetailsTabels
-                           .Where(d => d.ProductID == productId)
-                           .ToList();
 
-            foreach (var detail in details)
-                StoreManagerDB.PurchaseBillDetailsTabels.Remove(detail);
-            //-----------
-            StoreManagerDB.ProductsTabels.Remove(product);
-            StoreManagerDB.SaveChanges();
+            _Service.DeleteProductPurchaseDetails(productId);
+            _Service.DeleteProduct(product);
 
             MessageBox.Show("Ürün başarıyla silindi ✅",
                             "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -219,7 +203,6 @@ namespace StoreManager.Screens.Products
             txProduct_IDToSearch.Clear();
             LoadData();
         }
-
         private void btnRefreshProductList_Click(object sender, EventArgs e)
         {
             txtProduct_IDToDelete.Clear();
