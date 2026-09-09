@@ -17,12 +17,10 @@ namespace StoreManager.Classes.BusinessLogic
         {
             return _Repository.GetAllCategories();
         }
-
         public List<ProductsTabel> GetAllProducts()
         {
             return _Repository.GetAllProducts();
         }
-
         public List<ProductsTabel> GetProductsByCategory(int categoryId)
         {
             return _Repository.GetProductsByCategory(categoryId);
