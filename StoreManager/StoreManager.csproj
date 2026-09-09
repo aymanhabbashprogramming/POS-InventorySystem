@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BusinessLogic\ListAndDeleteProductService.cs" />
     <Compile Include="Classes\clsCustomers.cs" />
     <Compile Include="Classes\clsSuppliers.cs" />
     <Compile Include="Classes\clsUser.cs" />
