@@ -1,4 +1,5 @@
 ﻿using StoreManager.Classes;
+using StoreManager.Classes.BusinessLogic;
 using StoreManager.Database;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,20 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 {
     public partial class ImportProductScreen : Form
     {
+        ImportProductService _Service = new ImportProductService();
+
+        int SupplierID = 0;
+        string ProducImagePath = "";
+
+        List<ProductsTabel> addedProducts = new List<ProductsTabel>();
+
+        public ImportProductScreen()
+        {
+            InitializeComponent();
+            lblUserFirstName.Text = CurrentUserInfo.UserName_LastName;
+            lblUserName.Text = CurrentUserInfo.UserName;
+            LoadCategories();
+        }
 
         // Toplamı güncelle
         private void UpdateTotal()
@@ -26,23 +41,9 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             ApplyDiscount(total);
         }
 
-        StoreManagerDBEntities storeManagerDB = new StoreManagerDBEntities();
-        int SupplierID = 0;
-        string ProducImagePath = "";
-
-        List<ProductsTabel> addedProducts = new List<ProductsTabel>();
-
-        public ImportProductScreen()
-        {
-            InitializeComponent();
-            lblUserFirstName.Text = CurrentUserInfo.UserName_LastName;
-            lblUserName.Text = CurrentUserInfo.UserName;
-            LoadCategories();
-        }
-
         private void LoadCategories()
         {
-            CategoriesList.DataSource = storeManagerDB.CategoriesTabels.ToList();
+            CategoriesList.DataSource = _Service.GetAllCategories();
             CategoriesList.DisplayMember = "CategoryName";
             CategoriesList.ValueMember = "Id";
         }
@@ -59,8 +60,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            SuppliersTabel supplier = storeManagerDB.SuppliersTabels
-                .FirstOrDefault(s => s.PhoneNumber == InputText || s.Email == InputText);
+            SuppliersTabel supplier = _Service.GetSupplierByPhoneOrEmail(InputText);
 
             if (supplier != null)
             {
@@ -90,7 +90,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
         private void btnAddProductToBill_Click(object sender, EventArgs e)
         {
-            // تحقق من وجود المورد أولاً
             if (SupplierID == 0)
             {
                 MessageBox.Show("Lütfen önce tedarikçi seçiniz!",
@@ -99,7 +98,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            // تحقق من الحقول
             if (string.IsNullOrEmpty(txtProductName.Text.Trim()))
             {
                 MessageBox.Show("Ürün adı boş bırakılamaz!",
@@ -134,8 +132,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-                bool codeExists = storeManagerDB.ProductsTabels
-                .Any(p => p.Code == txtProductCode.Text.Trim());
+            bool codeExists = _Service.ProductCodeExists(txtProductCode.Text.Trim());
 
             if (codeExists)
             {
@@ -148,7 +145,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             int categoryId = int.Parse(CategoriesList.SelectedValue.ToString());
             string categoryName = (CategoriesList.SelectedItem as CategoriesTabel)?.CategoryName;
 
-            // إضافة المنتج إلى قاعدة البيانات
             ProductsTabel newProduct = new ProductsTabel();
             newProduct.Name = txtProductName.Text.Trim();
             newProduct.Code = txtProductCode.Text.Trim();
@@ -156,10 +152,8 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             newProduct.Quantity = quantity;
             newProduct.CategoryId = categoryId;
 
-            storeManagerDB.ProductsTabels.Add(newProduct);
-            storeManagerDB.SaveChanges();
+            _Service.AddProduct(newProduct);
 
-            // حفظ الصورة إن وجدت
             if (!string.IsNullOrEmpty(ProducImagePath))
             {
                 string folderPath = Environment.CurrentDirectory + "\\Images\\Products\\";
@@ -169,18 +163,14 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 string destPath = folderPath + newProduct.Id + "_product.jpeg";
                 File.Copy(ProducImagePath, destPath, true);
 
-                // ✅ حفظ المسار في قاعدة البيانات
-                newProduct.Image = destPath;
-                storeManagerDB.SaveChanges();
+                _Service.UpdateProductImage(newProduct, destPath);
 
                 ProducImagePath = "";
                 ProductPicture.ImageLocation = "";
             }
 
-            // إضافة إلى القائمة المؤقتة
             addedProducts.Add(newProduct);
 
-            // إضافة إلى DataGridView
             decimal totalPrice = price * quantity;
             dataGridView1.Rows.Add(
                 newProduct.Id,
@@ -191,7 +181,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 totalPrice
             );
 
-            // مسح الحقول
             txtProductName.Clear();
             txtProductPrice.Clear();
             txtProductQuantity.Clear();
@@ -216,12 +205,10 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
                 if (int.Parse(row.Cells["clProductID"].Value.ToString()) == deleteId)
                 {
-                    ProductsTabel product = storeManagerDB.ProductsTabels
-                                            .FirstOrDefault(p => p.Id == deleteId);
+                    ProductsTabel product = _Service.GetProductById(deleteId);
                     if (product != null)
                     {
-                        storeManagerDB.ProductsTabels.Remove(product);
-                        storeManagerDB.SaveChanges();
+                        _Service.DeleteProduct(deleteId);
                     }
 
                     addedProducts.RemoveAll(p => p.Id == deleteId);
@@ -251,9 +238,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            // تحقق من عدم التكرار
-            bool exists = storeManagerDB.CategoriesTabels
-                            .Any(c => c.CategoryName == categoryName);
+            bool exists = _Service.CategoryExists(categoryName);
             if (exists)
             {
                 MessageBox.Show("Bu kategori zaten mevcut!",
@@ -264,10 +249,8 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             CategoriesTabel newCategory = new CategoriesTabel();
             newCategory.CategoryName = categoryName;
 
-            storeManagerDB.CategoriesTabels.Add(newCategory);
-            storeManagerDB.SaveChanges();
+            _Service.AddCategory(newCategory);
 
-            // تحديث القائمة
             LoadCategories();
             CategoriesList.SelectedValue = newCategory.Id;
 
@@ -283,7 +266,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // تحقق من وجود المورد
             if (SupplierID == 0)
             {
                 MessageBox.Show("Lütfen önce tedarikçi seçiniz!",
@@ -291,7 +273,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            // تحقق من وجود منتجات
             if (addedProducts.Count == 0)
             {
                 MessageBox.Show("Faturaya en az bir ürün ekleyiniz!",
@@ -299,7 +280,6 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            // حساب الإجمالي
             decimal total = 0;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -307,14 +287,12 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 total += decimal.Parse(row.Cells["clTotalPrice"].Value.ToString());
             }
 
-            // الخصم
             decimal discount = 0;
             if (!string.IsNullOrEmpty(txtDiscount.Text.Trim()))
                 decimal.TryParse(txtDiscount.Text.Trim(), out discount);
 
             decimal totalAfterDiscount = total - (total * discount / 100);
 
-            // إنشاء فاتورة الشراء
             PurchaseBillTabel newBill = new PurchaseBillTabel();
             newBill.SupplierId = SupplierID;
             newBill.UserId = CurrentUserInfo.UserID;
@@ -323,10 +301,8 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             newBill.Discount = discount;
             newBill.TotalAfterDiscount = totalAfterDiscount;
 
-            storeManagerDB.PurchaseBillTabels.Add(newBill);
-            storeManagerDB.SaveChanges();
+            _Service.AddPurchaseBill(newBill);
 
-            // إنشاء تفاصيل الفاتورة لكل منتج
             foreach (var product in addedProducts)
             {
                 PurchaseBillDetailsTabel detail = new PurchaseBillDetailsTabel();
@@ -336,15 +312,14 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 detail.CostPrice = product.Price;
                 detail.TotalPrice = product.Price * product.Quantity;
 
-                storeManagerDB.PurchaseBillDetailsTabels.Add(detail);
+                _Service.AddPurchaseBillDetail(detail);
             }
 
-            storeManagerDB.SaveChanges();
+            _Service.SaveChanges();
 
             MessageBox.Show("Fatura başarıyla kaydedildi ✅",
                             "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // مسح كل شيء
             ClearAll();
         }
 
@@ -361,15 +336,8 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
                 if (confirm == DialogResult.No) return;
 
-                foreach (var product in addedProducts)
-                {
-                    ProductsTabel p = storeManagerDB.ProductsTabels
-                                        .FirstOrDefault(x => x.Id == product.Id);
-                    if (p != null)
-                        storeManagerDB.ProductsTabels.Remove(p);
-                }
-
-                storeManagerDB.SaveChanges();
+                var idsToDelete = addedProducts.Select(p => p.Id).ToList();
+                _Service.DeleteProducts(idsToDelete);
             }
 
             ClearAll();
