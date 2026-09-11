@@ -79,6 +79,7 @@
     <Compile Include="Classes\BusinessLogic\ImportProductService.cs" />
     <Compile Include="Classes\BusinessLogic\ListAndDeleteProductService.cs" />
     <Compile Include="Classes\BusinessLogic\PurchaseInvoiceService.cs" />
+    <Compile Include="Classes\BusinessLogic\SalesInvoiceService.cs" />
     <Compile Include="Classes\clsCustomers.cs" />
     <Compile Include="Classes\clsSuppliers.cs" />
     <Compile Include="Classes\clsUser.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Database\Repositories\ImportProductRepository.cs" />
     <Compile Include="Database\Repositories\ListAndDeleteProductRepository.cs" />
     <Compile Include="Database\Repositories\PurchaseInvoiceRepository.cs" />
+    <Compile Include="Database\Repositories\SalesInvoiceRepository.cs" />
     <Compile Include="Database\SalesBillDetailsTabel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
