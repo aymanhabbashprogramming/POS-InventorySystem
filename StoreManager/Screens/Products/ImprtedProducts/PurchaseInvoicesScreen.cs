@@ -1,19 +1,15 @@
-﻿using StoreManager.Database;
+﻿using StoreManager.Classes.BusinessLogic;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StoreManager.Screens.Products.ImprtedProducts
 {
     public partial class PurchaseInvoicesScreen : Form
     {
-        StoreManagerDBEntities StoreManagerDB = new StoreManagerDBEntities();
+        PurchaseInvoiceService _Service = new PurchaseInvoiceService();
+
         public PurchaseInvoicesScreen()
         {
             InitializeComponent();
@@ -29,7 +25,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.Rows.Clear();
 
-            dataGridView1.DataSource = StoreManagerDB.PurchaseBillTabels
+            dataGridView1.DataSource = _Service.GetAllBills()
                 .Select(x => new
                 {
                     clBill_ID = x.Id,
@@ -67,7 +63,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            var bill = StoreManagerDB.PurchaseBillTabels.FirstOrDefault(x => x.Id == searchId);
+            var bill = _Service.GetBillById(searchId);
 
             if (bill == null)
             {
@@ -79,19 +75,19 @@ namespace StoreManager.Screens.Products.ImprtedProducts
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.Rows.Clear();
 
-            dataGridView1.DataSource = StoreManagerDB.PurchaseBillTabels
-                .Where(x => x.Id == searchId)
-                .Select(x => new
+            dataGridView1.DataSource = new[]
+            {
+                new
                 {
-                    clBill_ID = x.Id,
-                    clSupplierName = x.SuppliersTabel.Name,
-                    clUserFirstName = x.UsersTabel.UserName,
-                    clDate = x.Date,
-                    clDiscount = x.Discount,
-                    clTotalBeforeDiscount = x.Total,
-                    clTotalAfterDiscount = x.TotalAfterDiscount
-                })
-                .ToList();
+                    clBill_ID = bill.Id,
+                    clSupplierName = bill.SuppliersTabel.Name,
+                    clUserFirstName = bill.UsersTabel.UserName,
+                    clDate = bill.Date,
+                    clDiscount = bill.Discount,
+                    clTotalBeforeDiscount = bill.Total,
+                    clTotalAfterDiscount = bill.TotalAfterDiscount
+                }
+            }.ToList();
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -103,14 +99,13 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
             int id = int.Parse(dataGridView1.CurrentRow.Cells["clBill_ID"].Value.ToString());
 
-            var bill = StoreManagerDB.PurchaseBillTabels.FirstOrDefault(x => x.Id == id);
+            var bill = _Service.GetBillById(id);
             if (bill == null) return;
 
             dataGridView2.RowTemplate.Height = 70;
 
             foreach (var item in bill.PurchaseBillDetailsTabels)
             {
-                
                 Image productImage = null;
                 try
                 {
@@ -160,7 +155,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
                 return;
             }
 
-            var bill = StoreManagerDB.PurchaseBillTabels.FirstOrDefault(x => x.Id == billId);
+            var bill = _Service.GetBillById(billId);
 
             if (bill == null)
             {
@@ -178,17 +173,7 @@ namespace StoreManager.Screens.Products.ImprtedProducts
 
             if (confirm == DialogResult.No) return;
 
-            // Önce fatura detaylarını silاً
-            var details = StoreManagerDB.PurchaseBillDetailsTabels
-                            .Where(d => d.PurchaseBill_ID == billId)
-                            .ToList();
-
-            foreach (var detail in details)
-                StoreManagerDB.PurchaseBillDetailsTabels.Remove(detail);
-
-            // Sonra faturayı sil
-            StoreManagerDB.PurchaseBillTabels.Remove(bill);
-            StoreManagerDB.SaveChanges();
+            _Service.DeleteBill(billId);
 
             MessageBox.Show("Fatura başarıyla silindi ✅",
                             "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
