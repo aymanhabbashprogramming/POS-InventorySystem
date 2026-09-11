@@ -1,4 +1,5 @@
-﻿using StoreManager.Database;
+﻿using StoreManager.Classes.BusinessLogic;
+using StoreManager.Database;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +11,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
 {
     public partial class ExportProductsScreen : Form
     {
-        StoreManagerDBEntities StoreManagerDB = new StoreManagerDBEntities();
+        ExportProductService _Service = new ExportProductService();
         List<Database.ProductsTabel> productsList;
         int CustomerID = 0;
         int selectedQuantity = 0;
@@ -26,27 +27,25 @@ namespace StoreManager.Screens.Products.ExportedProducts
             listView1.View = View.LargeIcon;
             listView1.LargeImageList = imageList1;
 
-            // Kategorileri yükle
-            CategoriesList.DataSource = StoreManagerDB.CategoriesTabels.ToList();
+            CategoriesList.DataSource = _Service.GetAllCategories();
             CategoriesList.DisplayMember = "CategoryName";
             CategoriesList.ValueMember = "Id";
 
-            productsList = StoreManagerDB.ProductsTabels.ToList();
+            productsList = _Service.GetAllProducts();
         }
 
-        // Form Load 
         private void ExportProductsScreen_Load(object sender, EventArgs e)
         {
             LoadAllProducts();
             DisableProductButtons();
         }
 
-        // Tüm ürünleri ListView'a yükle 
         private void LoadAllProducts()
         {
-            productsList = StoreManagerDB.ProductsTabels.ToList();
+            productsList = _Service.GetAllProducts();
             LoadProductsToListView(productsList);
         }
+
         private void LoadProductsToListView(List<Database.ProductsTabel> products)
         {
             listView1.Items.Clear();
@@ -77,7 +76,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             }
         }
 
-        // Ürün butonlarını devre dışı bırak
         private void DisableProductButtons()
         {
             btnIncreaseQuantity.Enabled = false;
@@ -85,7 +83,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             btnAddProductToBill.Enabled = false;
         }
 
-        // Butonların durumunu güncelle
         private void UpdateButtons()
         {
             if (currentProduct == null)
@@ -99,7 +96,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             btnAddProductToBill.Enabled = selectedQuantity > 0;
         }
 
-        // ListView'dan ürün seç
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count == 0) return;
@@ -111,7 +107,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             lblTotalPrice.Text = "0.00";
             lblAvailableQuantity.Text = currentProduct.Quantity.ToString();
 
-            // Ürün resmini göster
             if (!string.IsNullOrEmpty(currentProduct.Image) && File.Exists(currentProduct.Image))
                 picSelectedProduct.Image = Image.FromFile(currentProduct.Image);
             else
@@ -123,7 +118,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             UpdateButtons();
         }
 
-        // Miktarı artır butonu
         private void btnIncreaseQuantity_Click(object sender, EventArgs e)
         {
             if (currentProduct == null) return;
@@ -138,7 +132,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             UpdateButtons();
         }
 
-        // Miktarı azalt butonu
         private void btnDecreaseQuantity_Click(object sender, EventArgs e)
         {
             if (currentProduct == null) return;
@@ -148,16 +141,13 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 selectedQuantity--;
                 lblSelectedQuantity.Text = selectedQuantity.ToString();
                 lblTotalPrice.Text = (selectedQuantity * currentProduct.Price).ToString();
-
             }
 
             UpdateButtons();
         }
 
-        // Ürünü faturaya ekle
         private void btnAddProductToBill_Click(object sender, EventArgs e)
         {
-            // Önce müşteriyi kontrol et
             if (CustomerID == 0)
             {
                 MessageBox.Show("Lütfen önce müşteri seçiniz!",
@@ -172,10 +162,8 @@ namespace StoreManager.Screens.Products.ExportedProducts
             int quantity = selectedQuantity;
             decimal totalPrice = price * quantity;
 
-            // Kategori adını getir
             string categoryName = "";
-            var category = StoreManagerDB.CategoriesTabels
-                            .FirstOrDefault(c => c.Id == currentProduct.CategoryId);
+            var category = _Service.GetCategoryById(currentProduct.CategoryId.Value);
             if (category != null)
                 categoryName = category.CategoryName;
 
@@ -188,14 +176,12 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 totalPrice
             );
 
-            // Sıfırla
             selectedQuantity = 0;
             lblSelectedQuantity.Text = "0";
             UpdateButtons();
             UpdateTotal();
         }
 
-        //Toplamı güncelle
         private void UpdateTotal()
         {
             decimal total = 0;
@@ -209,7 +195,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             ApplyDiscount(total);
         }
 
-        // İndirimi uygula
         private void ApplyDiscount(decimal total)
         {
             if (string.IsNullOrEmpty(txtDiscount.Text.Trim()) ||
@@ -232,7 +217,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             TotalAfterDiscount.Text = totalAfter.ToString("N2");
         }
 
-        // İndirim uygula butonu
         private void btnPerformDiscount_Click(object sender, EventArgs e)
         {
             if (!decimal.TryParse(TotalBeforeDiscount.Text, out decimal total))
@@ -241,7 +225,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             ApplyDiscount(total);
         }
 
-        // Üründen faturayı sil
         private void btnDeleteProductFromBill_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtDeleteID.Text.Trim()) ||
@@ -271,7 +254,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
                             "Bulunamadı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        // Müşteri ara
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string inputText = txtSearch.Text.Trim();
@@ -283,8 +265,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 return;
             }
 
-            Database.CustomersTabel customer = StoreManagerDB.CustomersTabels
-                .FirstOrDefault(c => c.PhoneNumber == inputText || c.Email == inputText);
+            Database.CustomersTabel customer = _Service.GetCustomerByPhoneOrEmail(inputText);
 
             if (customer != null)
             {
@@ -300,40 +281,24 @@ namespace StoreManager.Screens.Products.ExportedProducts
             }
         }
 
-        // Kategoriye göre filtrele
         private void CategoriesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //CategoriesList.DataSource = StoreManagerDB.CategoriesTabels.ToList();
             CategoriesList.DisplayMember = "CategoryName";
             CategoriesList.ValueMember = "Id";
             if (CategoriesList.SelectedValue == null) return;
 
             int categoryId = int.Parse(CategoriesList.SelectedValue.ToString());
 
-            var products = StoreManagerDB.ProductsTabels
-                            .Where(x => x.CategoryId == categoryId)
-                            .ToList();
+            var products = _Service.GetProductsByCategory(categoryId);
 
             LoadProductsToListView(products);
-
-            // Mevcut ürünü sıfırla
-            //currentProduct = null;
-            //selectedQuantity = 0;
-            //lblSelectedQuantity.Text = "0";
-            //DisableProductButtons();
         }
 
-        // Yenile butonu (listeyi güncelle)
         private void btnRefrehListView_Click(object sender, EventArgs e)
         {
             LoadAllProducts();
-            //currentProduct = null;
-            //selectedQuantity = 0;
-            //lblSelectedQuantity.Text = "0";
-           // DisableProductButtons();
         }
 
-        // Ürün önizlemesini iptal et
         private void btnCancelProductReview_Click(object sender, EventArgs e)
         {
             currentProduct = null;
@@ -347,10 +312,8 @@ namespace StoreManager.Screens.Products.ExportedProducts
             DisableProductButtons();
         }
 
-        // Faturayı kaydet
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
             if (CustomerID == 0)
             {
                 MessageBox.Show("Lütfen önce müşteri seçiniz!",
@@ -358,7 +321,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 return;
             }
 
-           
             if (dataGridView1.Rows.Count == 0 ||
                 (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
             {
@@ -367,12 +329,10 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 return;
             }
 
-          
             decimal.TryParse(TotalBeforeDiscount.Text, out decimal total);
             decimal.TryParse(TotalAfterDiscount.Text, out decimal totalAfterDiscount);
             decimal.TryParse(txtDiscount.Text.Trim(), out decimal discount);
 
-            // Satış faturası oluştur
             SalesBillTabel salesBill = new SalesBillTabel();
             salesBill.CustomerId = CustomerID;
             salesBill.UserId = LoginScreen.CurrentUserInfo.UserID;
@@ -381,7 +341,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             salesBill.Discount = discount;
             salesBill.TotalAfterDiscount = totalAfterDiscount;
 
-            // Fatura detaylarını oluştur
             List<SalesBillDetailsTabel> details = new List<SalesBillDetailsTabel>();
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -400,19 +359,13 @@ namespace StoreManager.Screens.Products.ExportedProducts
                     TotalPrice = rowTotal
                 });
 
-                // Veritabanında ürün miktarını güncelle
                 int productId = int.Parse(row.Cells["clProductID"].Value.ToString());
-                ProductsTabel product = StoreManagerDB.ProductsTabels
-                                        .FirstOrDefault(p => p.Id == productId);
-                if (product != null)
-                    product.Quantity -= rowQuantity;
+                _Service.DecreaseProductQuantity(productId, rowQuantity);
             }
 
-            // Detayları faturaya bağla
             salesBill.SalesBillDetailsTabels = details;
 
-            StoreManagerDB.SalesBillTabels.Add(salesBill);
-            StoreManagerDB.SaveChanges();
+            _Service.AddSalesBill(salesBill);
 
             MessageBox.Show("Fatura başarıyla kaydedildi ✅",
                             "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -420,7 +373,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             ClearAll();
         }
 
-        // Faturayı iptal et
         private void btnIptal_Click(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count > 0)
@@ -437,6 +389,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
 
             ClearAll();
         }
+
         private void ClearAll()
         {
             CustomerID = 0;
