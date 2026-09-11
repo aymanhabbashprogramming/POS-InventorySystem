@@ -1,4 +1,4 @@
-﻿using StoreManager.Database;
+﻿using StoreManager.Classes.BusinessLogic;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
 {
     public partial class SalesInvoicesScreen : Form
     {
-        StoreManagerDBEntities StoreManagerDB = new StoreManagerDBEntities();
+        SalesInvoiceService _Service = new SalesInvoiceService();
 
         public SalesInvoicesScreen()
         {
@@ -20,13 +20,12 @@ namespace StoreManager.Screens.Products.ExportedProducts
             LoadData();
         }
 
-        // Tüm faturaları yükle
         private void LoadData()
         {
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.Rows.Clear();
 
-            dataGridView1.DataSource = StoreManagerDB.SalesBillTabels
+            dataGridView1.DataSource = _Service.GetAllBills()
                 .Select(x => new
                 {
                     clBill_ID = x.Id,
@@ -40,7 +39,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 .ToList();
         }
 
-        // Satır seçildiğinde fatura detaylarını göster
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             dataGridView2.Rows.Clear();
@@ -50,7 +48,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
 
             int id = int.Parse(dataGridView1.CurrentRow.Cells["clBill_ID"].Value.ToString());
 
-            var bill = StoreManagerDB.SalesBillTabels.FirstOrDefault(x => x.Id == id);
+            var bill = _Service.GetBillById(id);
             if (bill == null) return;
 
             dataGridView2.RowTemplate.Height = 70;
@@ -90,7 +88,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             }
         }
 
-        // Faturayı sil
         private void btnDeleteBill_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtBill_IDToDelete.Text.Trim()))
@@ -107,7 +104,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 return;
             }
 
-            var bill = StoreManagerDB.SalesBillTabels.FirstOrDefault(x => x.Id == billId);
+            var bill = _Service.GetBillById(billId);
 
             if (bill == null)
             {
@@ -125,17 +122,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
 
             if (confirm == DialogResult.No) return;
 
-            // Önce fatura detaylarını sil
-            var details = StoreManagerDB.SalesBillDetailsTabels
-                            .Where(d => d.SalesBill_ID == billId)
-                            .ToList();
-
-            foreach (var detail in details)
-                StoreManagerDB.SalesBillDetailsTabels.Remove(detail);
-
-            // Sonra faturayı sil
-            StoreManagerDB.SalesBillTabels.Remove(bill);
-            StoreManagerDB.SaveChanges();
+            _Service.DeleteBill(billId);
 
             MessageBox.Show("Fatura başarıyla silindi ✅",
                             "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,7 +132,6 @@ namespace StoreManager.Screens.Products.ExportedProducts
             LoadData();
         }
 
-        // Fatura ara
         private void btnSearchBill_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtBill_IDToSearch.Text.Trim()))
@@ -162,7 +148,7 @@ namespace StoreManager.Screens.Products.ExportedProducts
                 return;
             }
 
-            var bill = StoreManagerDB.SalesBillTabels.FirstOrDefault(x => x.Id == searchId);
+            var bill = _Service.GetBillById(searchId);
 
             if (bill == null)
             {
@@ -174,19 +160,19 @@ namespace StoreManager.Screens.Products.ExportedProducts
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.Rows.Clear();
 
-            dataGridView1.DataSource = StoreManagerDB.SalesBillTabels
-                .Where(x => x.Id == searchId)
-                .Select(x => new
+            dataGridView1.DataSource = new[]
+            {
+                new
                 {
-                    clBill_ID = x.Id,
-                    clCustomerName = x.CustomersTabel.Name,
-                    clUserFirstName = x.UsersTabel.UserName,
-                    clDate = x.Date,
-                    clDiscount = x.Discount,
-                    clTotalBeforeDiscount = x.Total,
-                    clTotalAfterDiscount = x.TotalAfterDiscount
-                })
-                .ToList();
+                    clBill_ID = bill.Id,
+                    clCustomerName = bill.CustomersTabel.Name,
+                    clUserFirstName = bill.UsersTabel.UserName,
+                    clDate = bill.Date,
+                    clDiscount = bill.Discount,
+                    clTotalBeforeDiscount = bill.Total,
+                    clTotalAfterDiscount = bill.TotalAfterDiscount
+                }
+            }.ToList();
         }
 
         private void btnRefreshBillList_Click(object sender, EventArgs e)
