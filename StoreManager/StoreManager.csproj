@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BusinessLogic\ExportProductService.cs" />
     <Compile Include="Classes\BusinessLogic\ImportProductService.cs" />
     <Compile Include="Classes\BusinessLogic\ListAndDeleteProductService.cs" />
     <Compile Include="Classes\BusinessLogic\PurchaseInvoiceService.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Database\PurchaseBillTabel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\Repositories\ExportProductRepository.cs" />
     <Compile Include="Database\Repositories\ImportProductRepository.cs" />
     <Compile Include="Database\Repositories\ListAndDeleteProductRepository.cs" />
     <Compile Include="Database\Repositories\PurchaseInvoiceRepository.cs" />
