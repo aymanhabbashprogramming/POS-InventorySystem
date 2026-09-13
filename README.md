@@ -1,4 +1,4 @@
-\# POS-InventorySystem
+﻿\# POS-InventorySystem
 
 
 
@@ -125,4 +125,5 @@ The project is divided into three main layers:
 \- \*\*Data Access:\*\* Entity Framework (Database First)
 
 \- \*\*UI Enhancement Library:\*\* Krypton Toolkit
+
 
