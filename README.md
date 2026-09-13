@@ -16,61 +16,61 @@ Below are the main screens of the system:
 
 \*\*Login Screen\*\*
 
-!\[Login Screen](images/LoginScreen.png)
+!\[Login Screen](StoreManager/images/LoginScreen.png)
 
 
 
 \*\*Main Screen\*\*
 
-!\[Main Screen](images/MainScreen.png)
+!\[Main Screen](StoreManager/images/MainScreen.png)
 
 
 
 \*\*List and Delete Product Screen\*\*
 
-!\[List and Delete Product Screen](images/ListAndDeleteProductScreen.png)
+!\[List and Delete Product Screen](StoreManager/images/ListAndDeleteProductScreen.png)
 
 
 
 \*\*Import Product Screen\*\*
 
-!\[Import Product Screen](images/importProductScreen.png)
+!\[Import Product Screen](StoreManager/images/importProductScreen.png)
 
 
 
 \*\*Purchase Invoices Screen\*\*
 
-!\[Purchase Invoices Screen](images/PurchaseInvoicesScreen.png)
+!\[Purchase Invoices Screen](StoreManager/images/PurchaseInvoicesScreen.png)
 
 
 
 \*\*Export Products Screen\*\*
 
-!\[Export Products Screen](images/exportProductsScreen.png)
+!\[Export Products Screen](StoreManager/images/exportProductsScreen.png)
 
 
 
 \*\*Sales Invoices Screen\*\*
 
-!\[Sales Invoices Screen](images/SalesInvoicesScreen.png)
+!\[Sales Invoices Screen](StoreManager/images/SalesInvoicesScreen.png)
 
 
 
 \*\*Manage Customers Screen\*\* (a unified screen covering add/delete/update/list operations)
 
-!\[Manage Customers Screen](images/ManageCustomersScreen.png)
+!\[Manage Customers Screen](StoreManager/images/ManageCustomersScreen.png)
 
 
 
 \*\*Manage Suppliers Screen\*\* (a unified screen covering add/delete/update/list operations)
 
-!\[Manage Suppliers Screen](images/ManageSuppliersScreen.png)
+!\[Manage Suppliers Screen](StoreManager/images/ManageSuppliersScreen.png)
 
 
 
 \*\*Manage Users Screen\*\* (a unified screen covering add/delete/update/list operations)
 
-!\[Manage Users Screen](images/ManageUsersScreen.png)
+!\[Manage Users Screen](StoreManager/images/ManageUsersScreen.png)
 
 
 
